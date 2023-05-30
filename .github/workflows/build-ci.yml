@@ -27,6 +27,6 @@ jobs:
           node-version: 18.12.1
       - run: docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
       - run: docker build -t $DOCKER_IMAGE .
-        working-directory: ./xAnomaly/serving
+        working-directory: ./.
       - run: docker push $DOCKER_IMAGE
-        working-directory: ./xAnomaly/serving
+        working-directory: ./.
