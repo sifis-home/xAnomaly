@@ -4,7 +4,7 @@
 # | |_) | |_| | | || |___| |_| |
 # |____/ \___/ |___|_____|____/
 
-name: Yggio Data Guard Build
+name: xAnomaly
 run-name: Official build started by ${{ github.actor }}
 on:
   push:
@@ -27,6 +27,6 @@ jobs:
           node-version: 18.12.1
       - run: docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
       - run: docker build -t $DOCKER_IMAGE .
-        working-directory: ./xAnomaly
+        working-directory: ./.
       - run: docker push $DOCKER_IMAGE
-        working-directory: ./xAnomaly
+        working-directory: ./.
