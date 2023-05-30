@@ -16,7 +16,7 @@ jobs:
     env:
       LOCAL_BUILD: false
       DOCKER_REGISTRY: harbor.sensative.net/yggio-tools/
-      DOCKER_IMAGE: harbor.sensative.net/yggio-tools/xAnomaly:latest
+      DOCKER_IMAGE: harbor.sensative.net/yggio-tools/xanomaly:latest
       REGISTRY_USER: 'robot$yggio-tools+builder'
       REGISTRY_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
     steps:
