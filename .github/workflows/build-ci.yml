@@ -15,10 +15,10 @@ jobs:
     runs-on: build
     env:
       LOCAL_BUILD: false
-      DOCKER_REGISTRY: harbor.sensative.net/yggio-tools/
-      DOCKER_IMAGE: harbor.sensative.net/yggio-tools/xanomaly:latest
-      REGISTRY_USER: 'robot$yggio-tools+builder'
-      REGISTRY_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
+      DOCKER_REGISTRY: ghcr.io/sifis-home/
+      DOCKER_IMAGE: ghcr.io/sifis-home/xanomaly:latest
+      REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 18.12.1
