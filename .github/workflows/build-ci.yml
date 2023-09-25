@@ -33,6 +33,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64,linux/arm
           push: true
-          tags: ghcr.io/sifis-home/aud_manager:latest
+          tags: ghcr.io/sifis-home/xanomaly:latest
           build-args: |
             COMMIT_ID=${{ github.sha }}
