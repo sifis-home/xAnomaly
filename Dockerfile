@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.8-bullseye
+FROM python:3.9-bullseye
 
 # WORKDIR /home/sm/ml
 ENV PYTHONUNBUFFERED=1
