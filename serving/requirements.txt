@@ -1,4 +1,4 @@
-tensorflow==2.9.1
+tensorflow
 numpy
 paho_mqtt==1.6.1
 requests
