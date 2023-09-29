@@ -5,8 +5,9 @@ FROM python:3.9-bullseye
 # WORKDIR /home/sm/ml
 ENV PYTHONUNBUFFERED=1
 
+RUN pip install --upgrade pip
 COPY serving/requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY serving/ .
 
