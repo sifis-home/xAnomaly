@@ -8,10 +8,13 @@ import os
 import requests
 import time
 import paho.mqtt.client as mqtt
+import websocket
+import rel
 
 
 #Own modules
 import internalAPI
+
 
 
 #Set root
@@ -20,6 +23,28 @@ import internalAPI
 # elif os.getcwd()[0:1]== 'C': #You are on Window, eg. at home
 #     workingPath = 'C:/Users/sara/Documents/ml/data_validation/serving'
 # os.chdir(workingPath)
+
+
+def on_error(ws, error):
+    print(error)
+
+
+def on_close(ws, close_status_code, close_msg):
+    print("### Connection closed ###")
+
+
+def on_open(ws):
+    print("### Connection established ###")
+
+
+ws = websocket.WebSocketApp(
+        "ws://localhost:3000/ws",
+        on_open=on_open,
+        on_error=on_error,
+        on_close=on_close,
+    )
+ws.run_forever(dispatcher=rel)  # Set dispatcher to automatic reconnection
+rel.signal(2, rel.abort)  # Keyboard Interrupt
 
 
 def preprocess(numpy_array, min_val, max_val):
@@ -50,6 +75,20 @@ def signal_anomaly():
       "sourceSensor": "xAnomaly Strips Presence"
     })
     
+    ws_req_final = {
+       "RequestPostTopicUUID": {
+           "topic_name": "SIFIS:xAnomaly_Analytics",
+           "topic_uuid": "xAnomaly_Detection_Results",
+           "value": {
+               "topic_name": "SIFIS:xAnomaly_Analytics",
+               "detection": 1,
+               "timestamp": str(int(time.time()))
+           },
+       }
+     }
+
+    ws.send(json.dumps(ws_req_final))
+    
 
 def detect_anomaly(autoencoder, inputs, server, username, password, ouput_nodeId):
     reconstruction = autoencoder.predict( np.array( [inputs,] )  )
@@ -64,6 +103,20 @@ def detect_anomaly(autoencoder, inputs, server, username, password, ouput_nodeId
           "result": 0,
           "sourceSensor": "xAnomaly Strips Presence"
         })
+        
+        ws_req_final = {
+           "RequestPostTopicUUID": {
+               "topic_name": "SIFIS:xAnomaly_Analytics",
+               "topic_uuid": "xAnomaly_Detection_Results",
+               "value": {
+                   "topic_name": "SIFIS:xAnomaly_Analytics",
+                   "detection": 0,
+                   "timestamp": str(int(time.time()))
+               },
+           }
+         }
+
+        ws.send(json.dumps(ws_req_final))
 
 
     
@@ -164,4 +217,3 @@ client.username_pw_set(channel_username, channel_password)
 client.user_data_set(inputs) 
 client.connect(mqqt_path, 8883)
 client.loop_forever()  # Start networking daemon
-
